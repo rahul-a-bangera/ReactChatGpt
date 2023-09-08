@@ -1,43 +1,58 @@
-import React, { Component } from "react";
-class ChatGPT extends Component {
-  constructor(props) {
-    super(props);
+import React, { useState } from "react";
 
-    this.state = {
-      query: "",
-      response: "",
-    };
-  }
+const ChatGPT = () => {
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("Result will appear here");
 
-  handleChange = (event) => {
-    this.setState({
-      query: event.target.value,
-    });
+  const handleChange = (event) => {
+    setQuery(event.target.value);
   };
 
-  handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Make an API request to the OpenAI ChatGPT API.
-    const apiUrl = "https://api.openai.com/v1/engines/chat/completions";
-    const apiHeaders = {
-      Authorization: `Bearer YOUR_API_KEY`,
-    };
-    const apiBody = {
-      prompt: this.state.query,
-    };
-
-    fetch(apiUrl, {
-      method: "POST",
-      headers: apiHeaders,
-      body: JSON.stringify(apiBody),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          response: data.choices[0].text,
-        });
+  
+    try {
+      const apiUrl = "https://api.openai.com/v1/engines/chat/completions";
+      const apiHeaders = {
+        Authorization: "Bearer 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",
+        "Content-Type": "application/json",
+      };
+      const apiBody = {
+        prompt: query,
+      };
+  
+      console.log("Making API Request...");
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: apiHeaders,
+        body: JSON.stringify(apiBody),
       });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+  
+      console.log("API Response Received...");
+      const data = await response.json();
+      setResponse(data.choices[0].text);
+    } catch (error) {
+      console.error("API Error:", error);
+    }
   };
-}
-return <ChatGPT />;
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Enter your query"
+        value={query}
+        onChange={handleChange}
+      />
+      <button onClick={handleSubmit}>Submit</button>
+      <p>{response}</p>
+    </div>
+  );
+};
+
+export default ChatGPT ;
+
