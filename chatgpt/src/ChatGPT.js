@@ -8,16 +8,17 @@ const ChatGPT = () => {
     setQuery(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
     try {
-      const apiUrl = "https://api.openai.com/v1/chat/completions";
+      const apiUrl = "https://api.openai.com/v1/engines/chat/completions";
       const apiHeaders = {
         Authorization: "Bearer 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",
         "Content-Type": "application/json",
       };
       const apiBody = {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: query }],
+        prompt: query,
       };
   
       console.log("Making API Request...");
