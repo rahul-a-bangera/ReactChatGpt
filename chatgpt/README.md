@@ -10,3 +10,9 @@
 > #### Project Skeleton
 
 ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/61723ce1844fd95c07499229be1a64a9bbbed94309365e71.png)
+
+---
+
+> #### Note:
+> 
+> *   The above design is just a skeleton. Anyone interested in upgrading the design, please do so and put a pull request. :P
